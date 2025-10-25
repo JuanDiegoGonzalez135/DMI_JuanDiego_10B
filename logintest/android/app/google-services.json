@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "64783257839",
+    "project_id": "test-login-7fcca",
+    "storage_bucket": "test-login-7fcca.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64783257839:android:2a8ca53c9e4a2a42eb0b1a",
+        "android_client_info": {
+          "package_name": "com.example.logintest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCr98oxeCARMplphwiz4l7nISXRPKiFO00"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
