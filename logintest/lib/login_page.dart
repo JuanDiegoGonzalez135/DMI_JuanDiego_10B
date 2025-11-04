@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logintest/register_page.dart';
 import 'validators.dart';
 import 'auth_errors.dart';
 
@@ -47,8 +48,9 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     try {
-      await FirebaseAuth.instance
-          .sendPasswordResetEmail(email: _emailCtrl.text.trim());
+      await FirebaseAuth.instance.sendPasswordResetEmail(
+        email: _emailCtrl.text.trim(),
+      );
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Revisa tu correo para restablecer.')),
@@ -76,54 +78,69 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.all(16),
             child: Form(
               key: _formKey,
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
-                TextFormField(
-                  controller: _emailCtrl,
-                  decoration: const InputDecoration(
-                    labelText: 'Correo',
-                    border: OutlineInputBorder(),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                    controller: _emailCtrl,
+                    decoration: const InputDecoration(
+                      labelText: 'Correo',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    validator: Validators.email,
                   ),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: Validators.email,
-                ),
-                const SizedBox(height: 12),
-                TextFormField(
-                  controller: _passwordCtrl,
-                  decoration: const InputDecoration(
-                    labelText: 'Contraseña',
-                    border: OutlineInputBorder(),
+                  const SizedBox(height: 12),
+                  TextFormField(
+                    controller: _passwordCtrl,
+                    decoration: const InputDecoration(
+                      labelText: 'Contraseña',
+                      border: OutlineInputBorder(),
+                    ),
+                    obscureText: true,
+                    validator: Validators.password,
                   ),
-                  obscureText: true,
-                  validator: Validators.password,
-                ),
-                const SizedBox(height: 12),
-                if (_error != null)
-                  Text(
-                    _error!,
-                    style: const TextStyle(color: Colors.red),
-                    textAlign: TextAlign.center,
+                  const SizedBox(height: 12),
+                  if (_error != null)
+                    Text(
+                      _error!,
+                      style: const TextStyle(color: Colors.red),
+                      textAlign: TextAlign.center,
+                    ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _loading ? null : _signIn,
+                      child: _loading
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Text('Entrar'),
+                    ),
                   ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _loading ? null : _signIn,
-                    child: _loading
-                        ? const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Text('Entrar'),
+                  TextButton(
+                    onPressed: _loading ? null : _resetPassword,
+                    child: const Text('¿Olvidaste tu contraseña?'),
                   ),
-                ),
-                TextButton(
-                  onPressed: _loading ? null : _resetPassword,
-                  child: const Text('¿Olvidaste tu contraseña?'),
-                ),
-                const SizedBox(height: 8),
-                const _SmallPrint(),
-              ]),
+                  const SizedBox(height: 8),
+                  const _SmallPrint(),
+                  TextButton(
+                    onPressed: _loading
+                        ? null
+                        : () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const RegisterPage(),
+                              ),
+                            );
+                          },
+                    child: const Text('¿No tienes cuenta? Regístrate'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
