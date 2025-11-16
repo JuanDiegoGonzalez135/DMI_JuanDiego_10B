@@ -1,0 +1,34 @@
+const admin = require('firebase-admin');
+
+// Carga del archivo de credenciales del service account
+const serviceAccount = require('./serviceAccountKey.json');
+
+// Inicializar el SDK de Firebase Admin
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+});
+
+// TODO: pega aquí el token FCM que te dio la app Flutter
+const deviceToken = 'c9JG04GKQs2SZBgO3BPp97:APA91bFoz461YM6CZjR3ArCw-JD0ouLHl_fjzNvZZpBGdpPtYi4UpwDmWIMzhf9k01rpouEysKNblNtac9YuP-q9xNLxuVXtKyMZrqp-1yLx9xIZfZLbAUo';
+
+
+async function sendPush() {
+    const message = {
+        token: deviceToken,
+        notification: {
+            title: 'Hola desde Firebase Admin',
+            body: 'Este es un mensaje enviado con la API v',
+        },
+        data: {
+            origen: 'node-demo',
+            tipo: 'prueba',
+        },
+    };
+    try {
+        const response = await admin.messaging().send(message);
+        console.log('✅ Mensaje enviado correctamente:', response);
+    } catch (error) {
+        console.error('❌ Error al enviar mensaje:', error);
+    }
+}
+sendPush();
