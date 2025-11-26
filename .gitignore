@@ -1,0 +1,20 @@
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Firebase keys (MUY IMPORTANTE)
+serviceAccountKey.json
+*.pem
+*.p12
+
+# Archivos sensibles
+*.keystore
+*.jks
+*.env
+
+Noti_server/serviceAccountKey.json
